@@ -1,3 +1,3 @@
-1. Work on the Pytorch training file - ensure we can train models and save snapshots 
-2. Train a lung segmentation model with pytorch.
-3. Try making a GPT that is able to accept Pytorch snapshots. Test the lung segmenter
+1. Train a lung segmentation model with pytorch.
+2. Try making a GPT that is able to accept Pytorch snapshots. Test the lung segmenter
+3. make a dicom reader. 
