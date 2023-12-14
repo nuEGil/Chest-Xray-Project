@@ -207,6 +207,10 @@ def Get_mock_data():
 ## now the network trainer    
 class Trainer():
     def __init__(self, args = None):
+        # set the GPU
+        # gpu = torch.cuda.current_device()
+        self.device = torch.device("cuda:0")
+        
         self.args = args
         # check to see if the save location exists or not - make the file path
         # make the path something nice like this. 
@@ -260,6 +264,9 @@ class Trainer():
                                 n_out = self.args.n_out)
         print(self.model)
 
+        # send model to the device
+        self.model=self.model.to(self.device)
+
         # TODO should save a copy of the initalized model --  
 
         # set the optimizer -- could be its own funciton 
@@ -291,9 +298,10 @@ class Trainer():
 
             # get a batch
             x_bat, y_true = self.loader['training'].get_batch(i)
-
+            x_bat, y_true = x_bat.to(self.device), y_true.to(self.device)
             # Make predictions for this batch
-            y_pred = self.model(x_bat)
+            y_pred = self.model(x_bat) 
+            y_pred = y_pred.to(self.device)
             
             # Compute loss and gradient
             loss = self.loss_fn(y_pred, y_true)
@@ -346,7 +354,13 @@ class Trainer():
             with torch.no_grad():
                 for i in range(n_batches):
                     x_bat, y_true = self.loader['testing'].get_batch(i)
+                    x_bat, y_true = x_bat.to(self.device), y_true.to(self.device)
+
                     y_pred = self.model(x_bat)
+
+                    # send to device
+                    y_pred = y_pred.to(self.device)        
+
 
                     vloss = self.loss_fn(y_pred, y_true)
                     running_vloss += vloss

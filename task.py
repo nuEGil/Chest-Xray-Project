@@ -5,9 +5,7 @@ import pandas as pd
 
 import torch 
 
-gpu = torch.cuda.current_device()
-print('cuda available ', torch.cuda.is_available())
-print('GPU ', gpu)
+
 
 from networks import *
 
@@ -61,5 +59,6 @@ def RunTraining():
     Trainer(xargs)
 
 if __name__ == '__main__':
+    
     RunTraining()
     
